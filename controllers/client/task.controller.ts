@@ -14,7 +14,19 @@ export const index = async (req: Request, res: Response) => {
     find["status"] = status;
   }
   // Het Loc theo trang thai
-  const tasks = await Task.find(find);
+
+  // Sap xep
+  const sort = {};
+  const sortKey = `${req.query.sortKey}`;
+  const sortValue = req.query.sortValue;
+
+  if(sortKey && sortValue) {
+    sort[sortKey] = sortValue;
+  }
+  // Het Sap xep
+  const tasks = await Task
+    .find(find)
+    .sort(sort);
   res.json(tasks);
 }
 
