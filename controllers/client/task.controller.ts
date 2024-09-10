@@ -5,7 +5,16 @@ import Task from "../../models/task.model";
 
 // [GET] /tasks
 export const index = async (req: Request, res: Response) => {
-  const tasks = await Task.find({});
+  const find = {
+    deleted: false
+  }
+  // Loc theo trang thai
+  const status = req.query.status;
+  if(status){
+    find["status"] = status;
+  }
+  // Het Loc theo trang thai
+  const tasks = await Task.find(find);
   res.json(tasks);
 }
 
