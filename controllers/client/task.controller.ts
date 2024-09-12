@@ -115,3 +115,20 @@ export const edit = async (req: Request, res: Response) => {
     })
   }
 }
+
+// [PATCH] /tasks/delete
+export const deleteItem = async (req: Request, res: Response) => {
+  try{
+    const ids = req.body.ids;
+    await Task.deleteMany({
+      _id: { $in: ids}
+    })
+    res.json({
+      message: "Xóa công việc thành công!"
+    })
+  } catch(e){
+    res.json({
+      message: "404 Not Found"
+    })
+  }
+}
