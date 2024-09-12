@@ -80,7 +80,7 @@ export const login = async (req: Request, res: Response) => {
       token: user.token,
       message: "Đăng nhập thành công!"
     })
-    
+
   } catch(e){
     res.json({
       code: 400,
@@ -89,3 +89,15 @@ export const login = async (req: Request, res: Response) => {
   }
 }
 
+// [GET] /users/profile
+export const profile = async (req: Request, res: Response) => {
+  const user = await User.findOne({
+    token: req['tokenVerify'],
+    deleted: false
+  }).select("-password -token")
+  res.json({
+    code: 200,
+    message: "Thành công!",
+    user: user
+  });
+}
