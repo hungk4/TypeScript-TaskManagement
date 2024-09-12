@@ -24,8 +24,25 @@ export const index = async (req: Request, res: Response) => {
     sort[sortKey] = sortValue;
   }
   // Het Sap xep
+
+  // Phan trang
+  let skip: number = 0;
+  let limitItems: number = 2;
+  if(req.query.limitItems){
+    limitItems = parseInt(`${req.query.limitItems}`);
+  };
+  let page: number = 1;
+  if(req.query.page){
+    page = parseInt(`${req.query.page}`);
+  }
+  skip = (page - 1) * limitItems;
+
+
+  // Het phan trang
   const tasks = await Task
     .find(find)
+    .skip(skip)
+    .limit(limitItems)
     .sort(sort);
   res.json(tasks);
 }
