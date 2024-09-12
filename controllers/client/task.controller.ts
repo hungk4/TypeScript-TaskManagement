@@ -1,8 +1,6 @@
 import { Request, Response} from "express";
 import Task from "../../models/task.model";
 
-
-
 // [GET] /tasks
 export const index = async (req: Request, res: Response) => {
   const find = {
@@ -83,4 +81,13 @@ export const changeStatus = async (req: Request, res: Response) => {
       message: "Not Found 404"
     })
   } 
+}
+
+// [POST] /create
+export const create = async (req: Request, res: Response) => {
+  const newTask = new Task(req.body);
+  await newTask.save();
+  res.json({
+    message: "Thêm mới sản phẩm thành công!"
+  })
 }
