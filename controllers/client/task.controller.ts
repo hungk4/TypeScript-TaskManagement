@@ -36,15 +36,23 @@ export const index = async (req: Request, res: Response) => {
     page = parseInt(`${req.query.page}`);
   }
   skip = (page - 1) * limitItems;
-
-
   // Het phan trang
+
+  // Tim kiem
+  if(req.query.keyword){
+    const regex = new RegExp(`${req.query.keyword}`, 'i');
+    find["title"] = regex;
+  };
+  // Het Tim kiem
+
+
   const tasks = await Task
     .find(find)
     .skip(skip)
     .limit(limitItems)
     .sort(sort);
   res.json(tasks);
+
 }
 
 // [GET] /tasks/detail/:id
