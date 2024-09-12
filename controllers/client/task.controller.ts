@@ -83,11 +83,35 @@ export const changeStatus = async (req: Request, res: Response) => {
   } 
 }
 
-// [POST] /create
+// [POST] /tasks/create
 export const create = async (req: Request, res: Response) => {
-  const newTask = new Task(req.body);
-  await newTask.save();
-  res.json({
-    message: "Thêm mới sản phẩm thành công!"
-  })
+  try {
+    const newTask = new Task(req.body);
+    await newTask.save();
+    res.json({
+      message: "Thêm mới sản phẩm thành công!"
+    })
+  } catch(e) {
+    res.json({
+      message: "404 Not Found"
+    })
+  }
+
+}
+
+// [PATCH] /tasks/edit/:id
+export const edit = async (req: Request, res: Response) => {
+  try{
+    const id = req.params.id;
+    await Task.updateOne({
+      _id: id
+    }, req.body);
+    res.json({
+      message: "Cập nhật task thành công!"
+    }) 
+  } catch(e){
+    res.json({
+      message: "404 Not Found"
+    })
+  }
 }
