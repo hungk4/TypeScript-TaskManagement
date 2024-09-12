@@ -45,7 +45,6 @@ export const index = async (req: Request, res: Response) => {
   };
   // Het Tim kiem
 
-
   const tasks = await Task
     .find(find)
     .skip(skip)
@@ -63,4 +62,25 @@ export const detail = async (req: Request, res: Response) => {
     deleted: false
   });
   res.json(task);
+}
+
+
+// [PATCH] /tasks/change-status
+export const changeStatus = async (req: Request, res: Response) => {
+  try{
+    const ids = req.body.ids;
+    await Task.updateMany({
+      _id : { $in: ids}
+    }, {
+      status: req.body.status
+    })
+    res.json({
+      message: "Cập nhật thành công!"
+    })
+  } catch(e){
+    console.log(e);
+    res.json({
+      message: "Not Found 404"
+    })
+  } 
 }
