@@ -1,4 +1,4 @@
-import { Request, Response} from "express";
+import { Request, Response } from "express";
 import Task from "../../models/task.model";
 
 // [GET] /tasks
